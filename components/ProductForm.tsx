@@ -6,6 +6,10 @@ import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import useQueryStore from "@/store/queryStore";
 import { useRouter } from "next/navigation";
+import { useToast } from "./ui/use-toast";
+import useAddToQueue from "@/hooks/useAddToQueue";
+import { ToastAction } from "./ui/toast";
+import Link from "next/link";
 
 type FormValues = {
   url: string;
@@ -18,15 +22,18 @@ type FormValues = {
 };
 
 export default function ProductForm() {
+  const { toast } = useToast();
   const router = useRouter();
   const { addQuery } = useQueryStore();
+  const { isLoading, addToQueue } = useAddToQueue();
+
   const number = [1, 2, 3, 4, 5, 6];
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<FormValues>();
-  const onSubmit: SubmitHandler<FormValues> = (data) => {
+  const onSubmit: SubmitHandler<FormValues> = async (data) => {
     const formData = [
       data.keyword1,
       data.keyword2,
@@ -37,9 +44,19 @@ export default function ProductForm() {
     ];
 
     const keywords = formData.filter((el) => el);
-
     addQuery(data.url, keywords);
-    router.push("/result");
+
+    const response = await addToQueue();
+
+    toast({
+      title: "Sucess!",
+      description: `Job successfully added to the queue. ID: ${response.jobID}`,
+      action: (
+        <Link href={"/user/jobs"} className="flex">
+          <ToastAction altText="see job">See Jobs</ToastAction>
+        </Link>
+      ),
+    });
   };
 
   return (
