@@ -1,3 +1,4 @@
+import useAuthStore from "@/store/AuthStore";
 import useQueryStore from "@/store/queryStore";
 import axios from "axios";
 import { useState } from "react";
@@ -5,9 +6,11 @@ import { useState } from "react";
 const useAddToQueue = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  const { url, keywords } = useQueryStore();
+  const { user } = useAuthStore();
 
-  const addToQueue = async () => {
+  const token = user?.token;
+
+  const addToQueue = async (url: string, keywords: string[]) => {
     setIsLoading(true);
 
     const response = await axios({
@@ -17,12 +20,17 @@ const useAddToQueue = () => {
         url,
         keywords,
       },
+      headers: { Authorization: `Bearer ${token}` },
     });
 
-    const data = await response.data;
-    setIsLoading(false);
+    if (response.status === 200) {
+      const data = await response.data;
+      return data;
+    } else if (response.status === 201) {
+      setError("Not Authorized");
+    }
 
-    return data;
+    setIsLoading(false);
   };
 
   return { isLoading, error, addToQueue };

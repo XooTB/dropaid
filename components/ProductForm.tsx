@@ -44,9 +44,9 @@ export default function ProductForm() {
     ];
 
     const keywords = formData.filter((el) => el);
-    addQuery(data.url, keywords);
+    // addQuery(data.url, keywords);
 
-    const response = await addToQueue();
+    const response = await addToQueue(data.url, keywords);
 
     toast({
       title: "Sucess!",

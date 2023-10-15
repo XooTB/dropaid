@@ -17,15 +17,15 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-interface JobTableProps<TData, TValue> {
+interface VarientsTable<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
 }
 
-const JobsTable = <TData, TValue>({
+const VarientsTable = <TData, TValue>({
   columns,
   data,
-}: JobTableProps<TData, TValue>) => {
+}: VarientsTable<TData, TValue>) => {
   const table = useReactTable({
     data,
     columns,
@@ -70,7 +70,7 @@ const JobsTable = <TData, TValue>({
           ) : (
             <TableRow>
               <TableCell colSpan={columns.length} className="h-24 text-center">
-                No results.
+                No varients available.
               </TableCell>
             </TableRow>
           )}
@@ -80,4 +80,4 @@ const JobsTable = <TData, TValue>({
   );
 };
 
-export default JobsTable;
+export default VarientsTable;

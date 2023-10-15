@@ -1,3 +1,5 @@
+import React from "react";
+
 export type varient = {
   model: string;
   image?: string;
