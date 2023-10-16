@@ -2,20 +2,22 @@ import React, { useState } from "react";
 import JSZip from "jszip";
 import useDownloadStore from "@/store/DownloadStore";
 
-const useDownloadImage = () => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, seterror] = useState("");
-  const { images } = useDownloadStore();
+const extractFilename = (name: string) => {
+  const regex = /\/([^/]+\.(jpg|jpeg|png|webp))$/i;
 
+  const match = regex.exec(name);
+
+  if (match) {
+    return match[0];
+  }
+};
+
+const useDownloadImage = () => {
   const zip = new JSZip();
 
-  const createZip = async () => {
-    const regex = /([^\/]+)\.jpg$/;
-
+  const createZip = async (images: string[], output: string) => {
     images.forEach(async (url, i) => {
-      const names = regex.exec(url);
-      //@ts-ignore
-      const filename = `${names[0]}`;
+      const filename = extractFilename(url);
 
       let blob = fetch(url).then((r) => r.blob());
 
@@ -32,13 +34,13 @@ const useDownloadImage = () => {
         // Create a download link for the zip file
         const link = document.createElement("a");
         link.href = window.URL.createObjectURL(zipData);
-        link.download = "ProductImages.zip";
+        link.download = `${output}.zip`;
         link.click();
       }
     });
   };
 
-  return { isLoading, error, createZip };
+  return { createZip };
 };
 
 export default useDownloadImage;

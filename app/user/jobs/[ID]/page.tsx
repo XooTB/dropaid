@@ -13,7 +13,7 @@ import useDownloadImage from "@/hooks/useDownloadImage";
 
 const page = ({ params }: { params: { ID: string } }) => {
   const { isLoading, data, error, getJob } = useGetJob();
-  const { addImage, addVarientImage } = useDownloadStore();
+  const { addImage, varientImages, cleanState, images } = useDownloadStore();
   const { createZip } = useDownloadImage();
 
   const handleClick = (image: string) => {
@@ -21,12 +21,17 @@ const page = ({ params }: { params: { ID: string } }) => {
   };
 
   const handleImageDownload = () => {
-    createZip();
+    createZip(images, "Product Images");
+  };
+
+  const handleVarientImageDownload = () => {
+    createZip(varientImages, "Varient Images");
   };
 
   useEffect(() => {
     const id = params.ID;
     getJob(id);
+    cleanState();
   }, []);
 
   return (
@@ -69,13 +74,11 @@ const page = ({ params }: { params: { ID: string } }) => {
       <div className="w-1/2 py-5">
         <div className="w-full flex justify-between pb-5">
           <h1 className="text-xl">Varients:</h1>
-          <Button>Download</Button>
+          <Button onClick={handleVarientImageDownload}>Download</Button>
         </div>
-        <ScrollArea className="h-96">
-          {data?.varients && (
-            <VarientsTable data={data?.varients} columns={VarientCols} />
-          )}
-        </ScrollArea>
+        {data?.varients && (
+          <VarientsTable data={data?.varients} columns={VarientCols} />
+        )}
       </div>
     </div>
   );

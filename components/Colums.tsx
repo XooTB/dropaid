@@ -14,23 +14,8 @@ import { ClipLoader } from "react-spinners";
 import useDeleteJob from "@/hooks/useDeleteJob";
 import axios from "axios";
 import Link from "next/link";
-
-// const deleteJob = async (id: string) => {
-//   const response = await axios({
-//     method: "delete",
-//     url: `${process.env.NEXT_PUBLIC_API}/api/job/delete/${id}`,
-//     headers: { Authorization: `Bearer ${token}` },
-//   });
-
-//   const message = await response.data.message;
-
-//   if (response.status === 200) {
-//     return {
-//       status: response.status,
-//       message: message,
-//     };
-//   }
-// };
+import { Checkbox } from "./ui/checkbox";
+import useDownloadStore from "@/store/DownloadStore";
 
 export const Columns: ColumnDef<JobType>[] = [
   {
@@ -98,6 +83,62 @@ export const Columns: ColumnDef<JobType>[] = [
 ];
 
 export const VarientCols: ColumnDef<varient>[] = [
+  {
+    id: "select",
+    header: ({ table }) => {
+      const { addVarientImage, cleanVarientState } = useDownloadStore();
+      const rows = table.getPreSelectedRowModel().rows;
+
+      const handleCheckedChange = (value: any) => {
+        table.toggleAllPageRowsSelected(!!value);
+        if (value) {
+          for (let row of rows) {
+            const image = row.original.image;
+
+            if (image) {
+              addVarientImage(image);
+            }
+          }
+        } else if (!value) {
+          cleanVarientState();
+        }
+      };
+
+      return (
+        <Checkbox
+          checked={table.getIsAllPageRowsSelected()}
+          onCheckedChange={handleCheckedChange}
+          aria-label="Select all"
+        />
+      );
+    },
+
+    cell: ({ row }) => {
+      const { addVarientImage, removeVarientImage } = useDownloadStore();
+      const data = row.original;
+
+      const handleCheckedChange = (value: any) => {
+        row.toggleSelected(!!value);
+        if (value) {
+          if (data.image) {
+            addVarientImage(data.image);
+          }
+        } else if (!value) {
+          if (data.image) {
+            removeVarientImage(data.image);
+          }
+        }
+      };
+
+      return (
+        <Checkbox
+          checked={row.getIsSelected()}
+          onCheckedChange={handleCheckedChange}
+          aria-label="Select row"
+        />
+      );
+    },
+  },
   {
     accessorKey: "model",
     header: "Model",

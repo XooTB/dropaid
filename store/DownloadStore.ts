@@ -8,6 +8,8 @@ type DownloadStore = {
   addVarientImage: (image: string) => void;
   removeImage: (image: string) => void;
   removeVarientImage: (image: string) => void;
+  cleanState: () => void;
+  cleanVarientState: () => void;
 };
 
 const useDownloadStore = create<DownloadStore>()((set) => ({
@@ -30,6 +32,12 @@ const useDownloadStore = create<DownloadStore>()((set) => ({
       const arr = state.varientImages.filter((el) => el !== image);
       return { varientImages: [...arr] };
     });
+  },
+  cleanState: () => {
+    set((state) => ({ images: [], varientImages: [] }));
+  },
+  cleanVarientState: () => {
+    set((state) => ({ varientImages: [] }));
   },
 }));
 
