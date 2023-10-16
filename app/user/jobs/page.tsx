@@ -4,7 +4,6 @@ import React, { useEffect } from "react";
 import useJobsStore from "@/store/jobsStore";
 import JobsTable from "@/components/JobsTable";
 import { Columns } from "@/components/Colums";
-import { data } from "@/constants/data";
 import { Separator } from "@/components/ui/separator";
 import useGetJobs from "@/hooks/useGetJobs";
 import { Button } from "@/components/ui/button";
@@ -12,6 +11,7 @@ import { RotateCw } from "lucide-react";
 import { ClipLoader } from "react-spinners";
 import useAuthStore from "@/store/AuthStore";
 import { useRouter } from "next/navigation";
+import { data } from "@/constants/data";
 
 const page = () => {
   const { jobs } = useJobsStore();
@@ -19,9 +19,11 @@ const page = () => {
   const { user } = useAuthStore();
   const router = useRouter();
 
-  if (!user) {
-    router.push("/auth");
-  }
+  useEffect(() => {
+    if (!user) {
+      router.push("/auth");
+    }
+  }, []);
 
   useEffect(() => {
     getJobs();
