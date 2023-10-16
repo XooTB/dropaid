@@ -10,6 +10,7 @@ import VarientsTable from "@/components/VarientsTable";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import useDownloadStore from "@/store/DownloadStore";
 import useDownloadImage from "@/hooks/useDownloadImage";
+import DescriptionGenerator from "@/components/DescriptionGenerator";
 
 const page = ({ params }: { params: { ID: string } }) => {
   const { isLoading, data, error, getJob } = useGetJob();
@@ -57,8 +58,9 @@ const page = ({ params }: { params: { ID: string } }) => {
           Title: <span className="text-xl font-serif">{data?.title}</span>
         </h1>
       </div>
-      <div className="w-full">
-        <div className="w-1/2">
+      <hr className="py-6" />
+      <div className="w-full pb-6">
+        <div className="">
           <div className="flex justify-between">
             <h1 className="text-xl">Product Images: </h1>
             <Button onClick={handleImageDownload}>Download</Button>
@@ -71,7 +73,8 @@ const page = ({ params }: { params: { ID: string } }) => {
         </div>
         <div className="w-1/2"></div>
       </div>
-      <div className="w-1/2 py-5">
+      <hr className="py-6" />
+      <div className="">
         <div className="w-full flex justify-between pb-5">
           <h1 className="text-xl">Varients:</h1>
           <Button onClick={handleVarientImageDownload}>Download</Button>
@@ -79,6 +82,11 @@ const page = ({ params }: { params: { ID: string } }) => {
         {data?.varients && (
           <VarientsTable data={data?.varients} columns={VarientCols} />
         )}
+      </div>
+      <hr className="py-6" />
+      <div>
+        <h1 className="text-xl">Description Generator:</h1>
+        <DescriptionGenerator />
       </div>
     </div>
   );

@@ -10,14 +10,26 @@ import useGetJobs from "@/hooks/useGetJobs";
 import { Button } from "@/components/ui/button";
 import { RotateCw } from "lucide-react";
 import { ClipLoader } from "react-spinners";
+import useAuthStore from "@/store/AuthStore";
+import { useRouter } from "next/navigation";
 
 const page = () => {
   const { jobs } = useJobsStore();
   const { isLoading, getJobs } = useGetJobs();
+  const { user } = useAuthStore();
+  const router = useRouter();
+
+  if (!user) {
+    router.push("/auth");
+  }
 
   useEffect(() => {
     getJobs();
   }, []);
+
+  const handleRefresh = () => {
+    getJobs();
+  };
 
   return (
     <div className="w-full flex justify-center flex-col items-center px-20 pb-10">
@@ -25,7 +37,7 @@ const page = () => {
       <Separator />
       <div className="w-full pt-10 flex items-center justify-center flex-col">
         <div className="flex justify-start pb-3 w-1/2">
-          <Button className="gap-1 ">
+          <Button className="gap-1" onClick={handleRefresh}>
             <RotateCw width={16} /> Refresh
           </Button>
         </div>
