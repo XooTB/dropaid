@@ -13,6 +13,8 @@ import {
 } from "@/components/ui/menubar";
 import useAuthStore from "@/store/AuthStore";
 import { useToast } from "./ui/use-toast";
+import { MoonIcon } from "lucide-react";
+import { useTheme } from "next-themes";
 
 const MenuBarData = {
   user: [
@@ -48,10 +50,14 @@ const NavBar = () => {
     });
   };
 
+  const { setTheme } = useTheme();
+
   return (
-    <div className="flex justify-between px-20 h-14 bg-gray-900 items-center">
+    <div className="flex justify-between px-20 h-14 dark:bg-[#020817] items-center">
       <Link href={"/"}>
-        <h1 className="text-white font-semibold text-3xl font-mono">DropAid</h1>
+        <h1 className="dark:text-white text-[#020817] font-semibold text-3xl font-mono">
+          DropAid
+        </h1>
       </Link>
       <div>
         <Menubar>
@@ -82,6 +88,16 @@ const NavBar = () => {
                   <MenubarItem>{data.name}</MenubarItem>
                 </Link>
               ))}
+            </MenubarContent>
+          </MenubarMenu>
+
+          <MenubarMenu>
+            <MenubarTrigger>
+              <MoonIcon />
+            </MenubarTrigger>
+            <MenubarContent>
+              <MenubarItem onClick={() => setTheme("light")}>Light</MenubarItem>
+              <MenubarItem onClick={() => setTheme("dark")}>Dark</MenubarItem>
             </MenubarContent>
           </MenubarMenu>
         </Menubar>

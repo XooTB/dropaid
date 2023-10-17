@@ -31,7 +31,6 @@ export default function LoginForm() {
     });
     router.push("/user");
   };
-  console.log(errors);
 
   return (
     <form

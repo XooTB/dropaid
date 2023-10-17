@@ -23,10 +23,9 @@ const page = () => {
     if (!user) {
       router.push("/auth");
     }
-  }, []);
-
-  useEffect(() => {
-    getJobs();
+    if (user) {
+      getJobs();
+    }
   }, []);
 
   const handleRefresh = () => {

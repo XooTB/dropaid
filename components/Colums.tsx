@@ -16,6 +16,7 @@ import axios from "axios";
 import Link from "next/link";
 import { Checkbox } from "./ui/checkbox";
 import useDownloadStore from "@/store/DownloadStore";
+import { useToast } from "./ui/use-toast";
 
 export const Columns: ColumnDef<JobType>[] = [
   {
@@ -62,6 +63,19 @@ export const Columns: ColumnDef<JobType>[] = [
     header: "Actions",
     cell: ({ row }) => {
       const data = row.original;
+      const { deleteJob } = useDeleteJob();
+      const { toast } = useToast();
+
+      const handleClick = async () => {
+        const res = await deleteJob(data.ID);
+        if (res?.status === 200) {
+          toast({
+            title: "Success!",
+            description: res.message,
+          });
+        }
+      };
+
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -72,7 +86,7 @@ export const Columns: ColumnDef<JobType>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem onClick={() => {}} className="cursor-pointer">
+            <DropdownMenuItem onClick={handleClick} className="cursor-pointer">
               Delete
             </DropdownMenuItem>
           </DropdownMenuContent>

@@ -6,10 +6,18 @@ export type varient = {
   type?: string;
 };
 
+export type specification = {
+  category: string;
+  value: string;
+};
+
 export type data = {
   title: string;
+  url: string;
   images: string[];
   varients: varient[];
+  specifications: specification[];
+  description?: string;
 };
 
 export type JobType = {

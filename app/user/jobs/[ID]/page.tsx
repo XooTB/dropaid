@@ -17,6 +17,8 @@ const page = ({ params }: { params: { ID: string } }) => {
   const { addImage, varientImages, cleanState, images } = useDownloadStore();
   const { createZip } = useDownloadImage();
 
+  console.log(data);
+
   const handleClick = (image: string) => {
     addImage(image);
   };
@@ -36,33 +38,34 @@ const page = ({ params }: { params: { ID: string } }) => {
   }, []);
 
   return (
-    <div className="px-10 bg-slate-100 min-h-screen">
+    <div className="px-10 min-h-screen">
       {isLoading && (
         <div className="w-screen h-screen flex justify-center items-center">
           <ClipLoader />{" "}
         </div>
       )}
-      <div className=" bg-neutral-200 px-10 py-2">
+      <div className="px-10 py-2">
         <h1 className="text-xl font-mono">
-          URL:{" "}
-          <span className="text-blue-500">
-            https://www.aliexpress.com/i/4000020773151.html
-          </span>
+          URL: <span className="text-blue-500">{data?.url}</span>
         </h1>
         <p className="text-lg font-mono">
           ID: <span className="text-orange-400 font-semibold">{params.ID}</span>
         </p>
       </div>
-      <div className="px-10 py-3">
-        <h1 className="text-2xl">
-          Title: <span className="text-xl font-serif">{data?.title}</span>
+      <hr className="" />
+      <div className="px-10 py-5">
+        <h1 className="text-xl dark:text-zinc-300">
+          Title:{" "}
+          <span className="text-xl font-serif dark:text-white">
+            {data?.title}
+          </span>
         </h1>
       </div>
-      <hr className="py-6" />
-      <div className="w-full pb-6">
+      <hr className="" />
+      <div className="w-full pb-6 pt-5">
         <div className="">
           <div className="flex justify-between">
-            <h1 className="text-xl">Product Images: </h1>
+            <h1 className="text-xl font-sans">Product Images: </h1>
             <Button onClick={handleImageDownload}>Download</Button>
           </div>
           <div className="grid grid-cols-4 gap-3">
@@ -74,17 +77,17 @@ const page = ({ params }: { params: { ID: string } }) => {
         <div className="w-1/2"></div>
       </div>
       <hr className="py-6" />
-      <div className="">
+      <div className="pb-6">
         <div className="w-full flex justify-between pb-5">
-          <h1 className="text-xl">Varients:</h1>
+          <h1 className="text-xl font-sans">Varients:</h1>
           <Button onClick={handleVarientImageDownload}>Download</Button>
         </div>
         {data?.varients && (
           <VarientsTable data={data?.varients} columns={VarientCols} />
         )}
       </div>
-      <hr className="py-6" />
-      <div>
+      <hr className="" />
+      <div className="py-5">
         <h1 className="text-xl">Description Generator:</h1>
         <DescriptionGenerator />
       </div>
