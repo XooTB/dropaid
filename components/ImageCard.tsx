@@ -14,12 +14,12 @@ const ImageCard = ({
   };
 
   return (
-    <div className="">
+    <div>
       <Checkbox
         className="relative top-7 left-2 border-black w-5 h-5"
         onClick={clicked}
       />
-      <img src={url} alt="url" className="" />
+      <img src={url} alt="url" />
     </div>
   );
 };

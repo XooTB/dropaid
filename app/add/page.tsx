@@ -24,6 +24,7 @@ const page = () => {
       </div>
     );
   }
+
   return (
     <div className="px-10 py-8">
       <ProductForm />

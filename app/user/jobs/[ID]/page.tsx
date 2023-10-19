@@ -7,7 +7,6 @@ import ImageCard from "@/components/ImageCard";
 import { Button } from "@/components/ui/button";
 import { VarientCols } from "@/components/Colums";
 import VarientsTable from "@/components/VarientsTable";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import useDownloadStore from "@/store/DownloadStore";
 import useDownloadImage from "@/hooks/useDownloadImage";
 import DescriptionGenerator from "@/components/DescriptionGenerator";
@@ -68,7 +67,7 @@ const page = ({ params }: { params: { ID: string } }) => {
             <h1 className="text-xl font-sans">Product Images: </h1>
             <Button onClick={handleImageDownload}>Download</Button>
           </div>
-          <div className="grid grid-cols-4 gap-3">
+          <div className="w-full grid grid-cols-4 gap-3">
             {data?.images.map((image, i) => (
               <ImageCard url={image} key={i} handleClick={handleClick} />
             ))}
@@ -88,8 +87,14 @@ const page = ({ params }: { params: { ID: string } }) => {
       </div>
       <hr className="" />
       <div className="py-5">
-        <h1 className="text-xl">Description Generator:</h1>
-        <DescriptionGenerator />
+        <h1 className="text-xl">Description Generator</h1>
+        {data && (
+          <DescriptionGenerator
+            title={data.title}
+            images={data.images}
+            id={params.ID}
+          />
+        )}
       </div>
     </div>
   );

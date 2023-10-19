@@ -1,20 +1,19 @@
-import { formValues } from "@/app/description/page";
-import { connect } from "http2";
+type hookProps = {
+  image1: string;
+  image2: string;
+  description: string;
+  boxItems: string;
+  title: string;
+};
 
-const useGenerateDesc = (data: formValues) => {
-  const {
-    image1,
-    image2,
-    productTitle1,
-    productTitle2,
-    description,
-    boxContents,
-  } = data;
-  const contents = boxContents.split(", ");
-  const boxCont = contents
-    .map((content) => `<li>${content}</li>`)
-    .join()
-    .replaceAll(",", " ");
+const useGenerateDesc = (data: hookProps) => {
+  const { image1, image2, description, title, boxItems } = data;
+
+  const contents = boxItems.split(", ").map((item) => {
+    return `<li>${item}</li>`;
+  });
+
+  console.log(contents);
 
   return `<!DOCTYPE html>
     <html lang="en">
@@ -47,7 +46,7 @@ const useGenerateDesc = (data: formValues) => {
               />
             </div>
             <div class="w-1/2 pl-4 py-5">
-              <h2 class="text-3xl font-bold mb-2">${productTitle1}</h2>
+              <h2 class="text-3xl font-bold mb-2">${title}</h2>
               <p class="text-gray-600 text-sm">Condition: New</p>
             </div>
           </div>
@@ -59,7 +58,6 @@ const useGenerateDesc = (data: formValues) => {
               What's in the Box
             </h2>
             <ul class="list-disc px-10">
-              ${boxCont}
             </ul>
           </section>
           <hr class="my-8 border-t border-gray-300" />
@@ -76,7 +74,7 @@ const useGenerateDesc = (data: formValues) => {
                 <h2
                   class="text-3xl font-bold mb-2 bg-blue-500 text-white px-3 py-1 rounded-md"
                 >
-                  ${productTitle2}
+                  ${title}
                 </h2>
                 <p class="text-gray-600 text-sm pb-10">
                   ${description}
@@ -99,7 +97,7 @@ const useGenerateDesc = (data: formValues) => {
               </div>
             </div>
           </section>
-          <hr class="my-8 border-t border-gray-300" />
+          <hr class="my-8 border-t border-gray-300"/>
           <section class="mt-8">
             <h2 class="text-2xl font-semibold mb-4">Shipping Information</h2>
             <p class="text-gray-600 text-sm">
@@ -112,4 +110,5 @@ const useGenerateDesc = (data: formValues) => {
     </html>
     `;
 };
+
 export default useGenerateDesc;
