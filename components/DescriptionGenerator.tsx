@@ -11,7 +11,7 @@ import useUploadImage from "@/hooks/useUploadImage";
 import { ClipLoader } from "react-spinners";
 
 type Props = {
-  title: string;
+  title: string[];
   images: string[];
   id: string;
 };

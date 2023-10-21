@@ -54,10 +54,16 @@ const page = ({ params }: { params: { ID: string } }) => {
       <hr className="" />
       <div className="px-10 py-5">
         <h1 className="text-xl dark:text-zinc-300">
-          Title:{" "}
-          <span className="text-xl font-serif dark:text-white">
-            {data?.title}
-          </span>
+          <div>
+            {data?.titles.map((title, i) => (
+              <h1 key={i} className="py-1">
+                {`Title: `}
+                <span className="text-xl font-serif dark:text-white">
+                  {title}
+                </span>
+              </h1>
+            ))}
+          </div>
         </h1>
       </div>
       <hr className="" />
@@ -90,7 +96,7 @@ const page = ({ params }: { params: { ID: string } }) => {
         <h1 className="text-xl">Description Generator</h1>
         {data && (
           <DescriptionGenerator
-            title={data.title}
+            titles={data.titles}
             images={data.images}
             id={params.ID}
           />

@@ -12,7 +12,7 @@ export type specification = {
 };
 
 export type data = {
-  title: string;
+  titles: string[];
   url: string;
   images: string[];
   varients: varient[];

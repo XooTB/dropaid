@@ -3,11 +3,11 @@ type hookProps = {
   image2: string;
   description: string;
   boxItems: string;
-  title: string;
+  titles: string[];
 };
 
 const useGenerateDesc = (data: hookProps) => {
-  const { image1, image2, description, title, boxItems } = data;
+  const { image1, image2, description, titles, boxItems } = data;
 
   const contents = boxItems.split(", ").map((item) => {
     return `<li>${item}</li>`;
@@ -46,7 +46,7 @@ const useGenerateDesc = (data: hookProps) => {
               />
             </div>
             <div class="w-1/2 pl-4 py-5">
-              <h2 class="text-3xl font-bold mb-2">${title}</h2>
+              <h2 class="text-3xl font-bold mb-2">${titles[0]}</h2>
               <p class="text-gray-600 text-sm">Condition: New</p>
             </div>
           </div>
@@ -74,7 +74,7 @@ const useGenerateDesc = (data: hookProps) => {
                 <h2
                   class="text-3xl font-bold mb-2 bg-blue-500 text-white px-3 py-1 rounded-md"
                 >
-                  ${title}
+                  ${titles[1]}
                 </h2>
                 <p class="text-gray-600 text-sm pb-10">
                   ${description}
