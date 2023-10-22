@@ -44,7 +44,6 @@ export default function ProductForm() {
     ];
 
     const keywords = formData.filter((el) => el);
-    // addQuery(data.url, keywords);
 
     const response = await addToQueue(data.url, keywords);
 
@@ -57,6 +56,8 @@ export default function ProductForm() {
         </Link>
       ),
     });
+
+    router.push("/user/jobs");
   };
 
   return (
@@ -64,7 +65,7 @@ export default function ProductForm() {
       onSubmit={handleSubmit(onSubmit)}
       className="w-1/2 border border-slate-400 px-10 py-5 rounded-sm"
     >
-      <label>Product Url</label>
+      <label className="pb-2">Product Url</label>
       <Input
         type="url"
         placeholder="Product URL"
@@ -72,25 +73,27 @@ export default function ProductForm() {
           required: true,
           min: 20,
         })}
-        className="w-full border border-slate-900 mb-5 h-10 text-sm pl-3 rounded-sm"
+        className="w-full border mb-5 h-10 text-sm pl-3 rounded-sm"
       />
       <h1 className="">Enter upto 6 keywords:</h1>
       <div className="grid grid-cols-2 gap-3 py-3 rounded-sm mb-5">
         {number.map((num, i) => (
           <div className="flex flex-col" key={i}>
-            <label>{`Keyword ${num}`}</label>
+            <label className="pb-2">{`Keyword ${num}`}</label>
             <Input
               type="text"
               placeholder={`Keyword`}
               //@ts-ignore
               {...register(`keyword${num}`, {})}
-              className="border-slate-600"
+              className=""
             />
           </div>
         ))}
       </div>
 
-      <Button type="submit">Submit</Button>
+      <Button type="submit" disabled={isLoading}>
+        {isLoading ? "Loading..." : "Submit"}
+      </Button>
     </form>
   );
 }

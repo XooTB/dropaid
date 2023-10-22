@@ -53,7 +53,7 @@ const NavBar = () => {
   const { setTheme } = useTheme();
 
   return (
-    <div className="flex justify-between px-20 h-14 dark:bg-[#020817] items-center">
+    <div className="flex justify-between px-20 h-14 items-center border-b">
       <Link href={"/"}>
         <h1 className="dark:text-white text-[#020817] font-semibold text-3xl font-mono">
           DropAid

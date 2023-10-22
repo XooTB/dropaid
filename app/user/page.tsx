@@ -31,7 +31,7 @@ const page = () => {
       <div className="min-h-1/3 bg-white">
         <Image src={profileHeader} className="h-64 w-full" alt="profile-head" />
       </div>
-      <div className="w-full h-20 bg-slate-900 flex items-center px-20 gap-3">
+      <div className="w-full h-20 flex items-center px-20 gap-3 border-b">
         <Avatar>
           <AvatarImage src="https://github.com/shadcn.png" />
           <AvatarFallback>CN</AvatarFallback>
@@ -40,6 +40,7 @@ const page = () => {
       </div>
       <div className="px-20 py-5">
         <h2 className="text-xl font-sans">My Jobs</h2>
+        <div></div>
       </div>
     </div>
   );
