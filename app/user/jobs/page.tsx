@@ -15,7 +15,7 @@ import { data } from "@/constants/data";
 
 const page = () => {
   const { jobs } = useJobsStore();
-  const { isLoading, getJobs } = useGetJobs();
+  const { isLoading, getJobs, error } = useGetJobs();
   const { user } = useAuthStore();
   const router = useRouter();
 
@@ -23,9 +23,14 @@ const page = () => {
     if (!user) {
       router.push("/auth");
     }
-    if (user) {
+
+    getJobs();
+
+    const intervalId = setInterval(() => {
       getJobs();
-    }
+    }, 30000);
+
+    return () => clearInterval(intervalId);
   }, []);
 
   const handleRefresh = () => {
@@ -37,10 +42,11 @@ const page = () => {
       <h1 className="text-3xl font-sans font-medium py-5">All Jobs</h1>
       <Separator />
       <div className="w-full pt-10 flex items-center justify-center flex-col">
-        <div className="flex justify-start pb-3 w-1/2">
+        <div className="flex justify-between pb-3 w-1/2">
           <Button className="gap-1" onClick={handleRefresh}>
             <RotateCw width={16} /> Refresh
           </Button>
+          {error && <p className="text-red-500">{error}</p>}
         </div>
         <div className="flex justify-center w-1/2">
           {!isLoading && jobs ? (
@@ -48,7 +54,7 @@ const page = () => {
           ) : (
             <div></div>
           )}
-          {isLoading && <ClipLoader />}
+          {isLoading && <ClipLoader color="white" />}
         </div>
       </div>
     </div>

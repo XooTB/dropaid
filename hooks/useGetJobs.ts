@@ -5,6 +5,7 @@ import { useState } from "react";
 
 const useGetJobs = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const { addJobs } = useJobsStore();
   const { user } = useAuthStore();
   const token = user?.token;
@@ -17,21 +18,29 @@ const useGetJobs = () => {
       url: `${process.env.NEXT_PUBLIC_API}/api/user/jobs`,
       headers: { Authorization: `Bearer ${token}` },
     });
-
     const data = await response.data.jobs;
 
-    addJobs(
-      data.map((job: any) => ({
-        ID: job.ID,
-        status: job.status,
-        data: job.data ? job.data : "",
-      }))
-    );
+    switch (response.status) {
+      case 200:
+        addJobs(
+          data.map((job: any) => ({
+            ID: job.ID,
+            status: job.status,
+            data: job.data ? job.data : "",
+          }))
+        );
+        setIsLoading(false);
+        return;
+      case 401:
+        setError("Not Authorized");
+        setIsLoading(false);
+        return;
+    }
 
     setIsLoading(false);
   };
 
-  return { isLoading, getJobs };
+  return { isLoading, getJobs, error };
 };
 
 export default useGetJobs;

@@ -5,6 +5,7 @@ type jobsStore = {
   jobs: JobType[] | null;
   addJobs: (jobs: JobType[]) => void;
   removeJobs: () => void;
+  removeJob: (id: string) => void;
 };
 
 const useJobsStore = create<jobsStore>()((set) => ({
@@ -14,6 +15,13 @@ const useJobsStore = create<jobsStore>()((set) => ({
   },
   removeJobs: () => {
     set(() => ({}));
+  },
+  removeJob: (id: string) => {
+    set((state) => {
+      const jobs = state.jobs?.filter((job) => job.ID !== id);
+
+      return { jobs };
+    });
   },
 }));
 

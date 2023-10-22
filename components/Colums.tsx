@@ -17,6 +17,7 @@ import Link from "next/link";
 import { Checkbox } from "./ui/checkbox";
 import useDownloadStore from "@/store/DownloadStore";
 import { useToast } from "./ui/use-toast";
+import useJobsStore from "@/store/jobsStore";
 
 export const Columns: ColumnDef<JobType>[] = [
   {
@@ -65,6 +66,7 @@ export const Columns: ColumnDef<JobType>[] = [
       const data = row.original;
       const { deleteJob } = useDeleteJob();
       const { toast } = useToast();
+      const { removeJob } = useJobsStore();
 
       const handleClick = async () => {
         const res = await deleteJob(data.ID);
@@ -73,6 +75,8 @@ export const Columns: ColumnDef<JobType>[] = [
             title: "Success!",
             description: res.message,
           });
+
+          removeJob(data.ID);
         }
       };
 

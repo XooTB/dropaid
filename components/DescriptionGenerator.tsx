@@ -11,7 +11,7 @@ import useUploadImage from "@/hooks/useUploadImage";
 import { ClipLoader } from "react-spinners";
 
 type Props = {
-  title: string[];
+  titles: string[];
   images: string[];
   id: string;
 };
@@ -25,7 +25,7 @@ export type formValues = {
   boxContents: string;
 };
 
-const DescriptionGenerator = ({ title, images, id }: Props) => {
+const DescriptionGenerator = ({ titles, images, id }: Props) => {
   const [image1, setImage1] = useState<string>("");
   const [image2, setImage2] = useState<string>("");
   const [description, setDescription] = useState<string>("");
@@ -60,7 +60,7 @@ const DescriptionGenerator = ({ title, images, id }: Props) => {
       image2,
       description,
       boxItems,
-      title,
+      titles,
     };
 
     setDescHtml(useGenerateDesc(data));
