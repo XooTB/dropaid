@@ -14,6 +14,10 @@ type Props = {
   titles: string[];
   images: string[];
   id: string;
+  specs: {
+    category: string;
+    value: string;
+  }[];
 };
 
 export type formValues = {
@@ -25,7 +29,7 @@ export type formValues = {
   boxContents: string;
 };
 
-const DescriptionGenerator = ({ titles, images, id }: Props) => {
+const DescriptionGenerator = ({ titles, images, id, specs }: Props) => {
   const [image1, setImage1] = useState<string>("");
   const [image2, setImage2] = useState<string>("");
   const [description, setDescription] = useState<string>("");
@@ -61,6 +65,7 @@ const DescriptionGenerator = ({ titles, images, id }: Props) => {
       description,
       boxItems,
       titles,
+      specs,
     };
 
     setDescHtml(useGenerateDesc(data));

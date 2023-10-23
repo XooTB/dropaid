@@ -16,8 +16,6 @@ const page = ({ params }: { params: { ID: string } }) => {
   const { addImage, varientImages, cleanState, images } = useDownloadStore();
   const { createZip } = useDownloadImage();
 
-  console.log(data);
-
   const handleClick = (image: string) => {
     addImage(image);
   };
@@ -99,6 +97,7 @@ const page = ({ params }: { params: { ID: string } }) => {
             titles={data.titles}
             images={data.images}
             id={params.ID}
+            specs={data.specifications}
           />
         )}
       </div>
