@@ -73,8 +73,7 @@ const DescriptionGenerator = ({ titles, images, id, specs }: Props) => {
 
   const handleImageSelect = (url: string) => {
     if (uploadQueue?.find((el) => el === url)) {
-      const queue = uploadQueue.filter((el) => el !== url);
-      setUploadQueue(queue);
+      setUploadQueue(uploadQueue.filter((el) => el !== url));
     } else {
       setUploadQueue([...uploadQueue, url]);
     }
@@ -140,7 +139,12 @@ const DescriptionGenerator = ({ titles, images, id, specs }: Props) => {
           </div>
           <div className="grid grid-cols-4 gap-2">
             {images.map((img, i) => (
-              <ImageCard key={i} url={img} handleClick={handleImageSelect} />
+              <ImageCard
+                key={i}
+                url={img}
+                handleImageSelect={handleImageSelect}
+                images={uploadQueue}
+              />
             ))}
           </div>
         </div>

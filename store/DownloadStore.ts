@@ -6,9 +6,11 @@ type DownloadStore = {
   varientImages: string[];
   addImage: (image: string) => void;
   addVarientImage: (image: string) => void;
+  addImages: (images: string[]) => void;
+  addVarientImages: (images: string[]) => void;
   removeImage: (image: string) => void;
   removeVarientImage: (image: string) => void;
-  cleanState: () => void;
+  cleanImagesState: () => void;
   cleanVarientState: () => void;
 };
 
@@ -20,6 +22,12 @@ const useDownloadStore = create<DownloadStore>()((set) => ({
   },
   addVarientImage: (image: string) => {
     set((state) => ({ varientImages: [...state.varientImages, image] }));
+  },
+  addImages: (images: string[]) => {
+    set(() => ({ images: [...images] }));
+  },
+  addVarientImages(images) {
+    set(() => ({ varientImages: [...images] }));
   },
   removeImage: (image: string) => {
     set((state) => {
@@ -33,7 +41,7 @@ const useDownloadStore = create<DownloadStore>()((set) => ({
       return { varientImages: [...arr] };
     });
   },
-  cleanState: () => {
+  cleanImagesState: () => {
     set((state) => ({ images: [], varientImages: [] }));
   },
   cleanVarientState: () => {

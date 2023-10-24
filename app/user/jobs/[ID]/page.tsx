@@ -1,6 +1,13 @@
 "use client";
 
-import React, { useEffect } from "react";
+/**
+ * Renders the page for a specific job ID, displaying job details, product images, variants, and a description generator.
+ * @param {Object} props - The component props.
+ * @param {Object} props.params - The job ID passed as a parameter.
+ * @returns {JSX.Element} - The rendered component.
+ */
+
+import React, { useEffect, useState } from "react";
 import useGetJob from "@/hooks/useGetJob";
 import { ClipLoader } from "react-spinners";
 import ImageCard from "@/components/ImageCard";
@@ -10,20 +17,67 @@ import VarientsTable from "@/components/VarientsTable";
 import useDownloadStore from "@/store/DownloadStore";
 import useDownloadImage from "@/hooks/useDownloadImage";
 import DescriptionGenerator from "@/components/DescriptionGenerator";
+import { Checkbox } from "@/components/ui/checkbox";
 
 const page = ({ params }: { params: { ID: string } }) => {
   const { isLoading, data, error, getJob } = useGetJob();
-  const { addImage, varientImages, cleanState, images } = useDownloadStore();
+  const [selectState, setSelectState] = useState<boolean>(false);
+
+  /**
+   * Custom hook that provides access to image-related functions and state.
+   */
+  const {
+    addImage,
+    varientImages,
+    cleanImagesState,
+    images,
+    addImages,
+    addVarientImages,
+  } = useDownloadStore();
   const { createZip } = useDownloadImage();
 
-  const handleClick = (image: string) => {
-    addImage(image);
+  /**
+   * Handles the selection of an image. If the image is not already in the `images` array, it is added to it.
+   * If the image is already in the `images` array, it is removed from it.
+   * @param image - The image to be selected.
+   */
+  const handleImageSelect = (image: string) => {
+    if (!images.includes(image)) {
+      addImage(image);
+    } else if (images.includes(image)) {
+      const arr = images.filter((img) => img !== image);
+      cleanImagesState();
+      addImages(arr);
+    }
   };
 
+  /**
+   * Handles the select all functionality for images.
+   * @param {boolean} selected - Whether all images are selected or not.
+   */
+  const handleSelectAll = (selected: boolean) => {
+    if (selected) {
+      //@ts-ignore
+      addImages(data.images);
+      setSelectState(true);
+    }
+    if (!selected) {
+      cleanImagesState();
+      setSelectState(false);
+    }
+  };
+
+  /**
+   * Downloads a zip file containing the product images.
+   * @returns void
+   */
   const handleImageDownload = () => {
     createZip(images, "Product Images");
   };
 
+  /**
+   * Downloads a zip file containing the variant images.
+   */
   const handleVarientImageDownload = () => {
     createZip(varientImages, "Varient Images");
   };
@@ -31,7 +85,7 @@ const page = ({ params }: { params: { ID: string } }) => {
   useEffect(() => {
     const id = params.ID;
     getJob(id);
-    cleanState();
+    cleanImagesState();
   }, []);
 
   return (
@@ -71,10 +125,19 @@ const page = ({ params }: { params: { ID: string } }) => {
             <h1 className="text-xl font-sans">Product Images: </h1>
             <Button onClick={handleImageDownload}>Download</Button>
           </div>
-          <div className="w-full grid grid-cols-4 gap-3">
-            {data?.images.map((image, i) => (
-              <ImageCard url={image} key={i} handleClick={handleClick} />
-            ))}
+          <div>
+            <Checkbox onCheckedChange={handleSelectAll} />{" "}
+            <span className="pl-2">Select All</span>
+            <div className="w-full grid grid-cols-4 gap-3">
+              {data?.images.map((image, i) => (
+                <ImageCard
+                  url={image}
+                  key={i}
+                  handleImageSelect={handleImageSelect}
+                  images={images}
+                />
+              ))}
+            </div>
           </div>
         </div>
         <div className="w-1/2"></div>
