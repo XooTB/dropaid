@@ -34,9 +34,12 @@ const page = () => {
       <div className="w-full h-20 flex items-center px-20 gap-3 border-b">
         <Avatar>
           <AvatarImage src="https://github.com/shadcn.png" />
-          <AvatarFallback>CN</AvatarFallback>
+          <AvatarFallback>USER</AvatarFallback>
         </Avatar>
-        <h2>Username</h2>
+        <div>
+          <h2 className="text-base capitalize">{user.username}</h2>
+          <p className="text-xs text-muted-foreground">{user.email}</p>
+        </div>
       </div>
       <div className="px-20 py-5">
         <h2 className="text-xl font-sans">My Jobs</h2>

@@ -21,7 +21,7 @@ const useLogin = () => {
 
     if (response.status === 200) {
       const data = await response.data;
-      login(data.email, data.token);
+      login(data.email, data.token, data.username);
     } else {
       setError(response.data);
     }

@@ -87,8 +87,7 @@ const useGenerateDesc = (data: hookProps) => {
                 ${titles[2]}
               </h2>
               <p class="text-gray-600 text-sm pb-10">
-                Product Description goes here. You can provide details about the
-                product in this section.
+                ${description}
               </p>
   
               <!-- Specification Table -->
